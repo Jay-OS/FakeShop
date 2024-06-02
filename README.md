@@ -19,6 +19,17 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Unit tests
+
+For unit tests I have leveraged Jest.
+
+To run the tests:
+```bash
+npm run test
+# or
+yarn test
+```
+
 ## Architecture and design decisions
 
 As the FakeStoreApi responses don't reflect any previous changes in state, I wasn't able to implement data fetching

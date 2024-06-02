@@ -7,7 +7,7 @@ export function isNullUndefinedOrWhiteSpace(value?: string | null): boolean {
 }
 
 export function isValidURL(value?: string | null): boolean {
-    if (isNullOrUndefined(value)) return false;
+    if (isNullUndefinedOrWhiteSpace(value)) return false;
 
     try {
         const url = new URL(value!);
