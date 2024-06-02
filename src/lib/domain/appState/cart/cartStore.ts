@@ -7,9 +7,10 @@ import * as cartService from '@/lib/apiGateway/cartService';
 type CartStoreType = {
     cart?: ICart;
     createCart: () => void;
-    addToCart: (cartProduct: ICartProduct) => void;
+    addToCart: (cartProduct: ICartProduct) => Promise<void>;
     deleteFromCart: (productId: number) => void;
     updateCartProduct: (productId: number, quantity: number) => void,
+    emptyCart: () => void,
 };
 
 const useCartStore = create<CartStoreType>((set, get) => ({
@@ -19,14 +20,18 @@ const useCartStore = create<CartStoreType>((set, get) => ({
     set((_state) => ({ cart }))
   },
   addToCart: async (cartProduct: ICartProduct) => {
-    let stateCart = get().cart;
-    stateCart = stateCart ?? await cartService.createCart();
-    stateCart.addProduct(cartProduct.productId, cartProduct.quantity, cartProduct.productEntity);
+    return new Promise(async (resolve) => {
+      let stateCart = get().cart;
+      stateCart = stateCart ?? await cartService.createCart();
+      stateCart.addProduct(cartProduct.productId, cartProduct.quantity, cartProduct.productEntity);
 
-    stateCart = getNewCart(stateCart);
+      stateCart = getNewCart(stateCart);
 
-    await cartService.updateCart(stateCart);
-    set((_state) => ({ cart: stateCart }))
+      await cartService.updateCart(stateCart);
+      set((_state) => ({ cart: stateCart }))
+
+      resolve();
+    });
   },
   deleteFromCart: async (productId: number) => {
     let stateCart = get().cart;
@@ -48,6 +53,16 @@ const useCartStore = create<CartStoreType>((set, get) => ({
     await cartService.updateCart(stateCart);
     set((_state) => ({ cart: stateCart }))
   },
+  emptyCart: async () => {
+    let stateCart = get().cart;
+    stateCart = stateCart ?? await cartService.createCart();
+    stateCart.emptyCart();
+
+    stateCart = getNewCart(stateCart);
+
+    await cartService.updateCart(stateCart);
+    set((_state) => ({ cart: stateCart }))
+  }
 }));
 
 function getNewCart(cart: ICart): ICart {

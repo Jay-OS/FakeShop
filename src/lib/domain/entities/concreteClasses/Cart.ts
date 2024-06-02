@@ -46,6 +46,13 @@ export default class Cart implements ICart {
     }
 
     addProduct (productId: number, quantity: number, product?: IProduct): void {
+        const productInCart = this._products.find(prd => prd.productId === productId);
+
+        if (productInCart) {
+            productInCart.quantity = productInCart.quantity + quantity;
+            return;
+        }
+
         this._products.push(new CartProduct({ productId, quantity, productEntity: product }))
     }
 
@@ -57,6 +64,10 @@ export default class Cart implements ICart {
     updateProduct(productId: number, quantity: number): void {
         const product = this._products.find(prd => prd.productId === productId);
         if (product) product.quantity = quantity;
+    }
+
+    emptyCart() {
+        this._products.splice(0, this._products.length);
     }
 
     getObject(): Partial<ICart> {

@@ -1,12 +1,11 @@
 "use client"
 
-import Image from "next/image";
 import ProductTile from './ProductTile';
 
 import useProductsState from '@/lib/domain/appState/products/useProductState';
 
 export default function ProductListing() {
-    const { products } = useProductsState();
+    const { productsStore, isLoading } = useProductsState();
 
     const styles = [
         'w-full py-12 grid gap-8', // layout
@@ -15,7 +14,7 @@ export default function ProductListing() {
 
     return (
         <ul className={styles.join(' ')}>
-            {products.map(product => (
+            {productsStore.products.map(product => (
                 <ProductTile key={product.id} product={product} />
             ))}
         </ul>

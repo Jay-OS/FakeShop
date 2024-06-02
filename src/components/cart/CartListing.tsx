@@ -4,6 +4,8 @@ import { MdShoppingCartCheckout } from 'react-icons/md';
 
 import InvalidArgumentError from '@/lib/domain/errors/InvalidArgumentError';
 
+import useCartStore from '@/lib/domain/appState/cart/cartStore';
+
 import CartListingProductTile from './CartListingProductTile';
 
 import { ICart } from '@/lib/domain/entities/interfaces/cartInterfaces';
@@ -12,6 +14,7 @@ export default function CartListing({ cart }: { cart: ICart }) {
     if (!cart) throw new InvalidArgumentError('cart', cart);
 
     const router = useRouter()
+    const emptyCart = useCartStore(state => state.emptyCart);
 
     const cartTotal = cart.products.reduce(
         (acc, curr) => {
@@ -22,6 +25,7 @@ export default function CartListing({ cart }: { cart: ICart }) {
     );
 
     function onCheckoutClick() {
+        emptyCart();
         router.push('/checkout');
     }
 
