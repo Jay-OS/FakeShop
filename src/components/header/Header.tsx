@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import Wrapper from '../utility/Wrapper';
 import CartPreview from './CartPreview';
@@ -13,14 +14,16 @@ function Header() {
         <header className={styles.join(' ')}>
             <Wrapper className="py-2 flex items-center">
                 <div className="grow">
-                    <Image
-                        src="/FakeShop.svg"
-                        alt="FakeShop Logo"
-                        className="dark:invert"
-                        width={300}
-                        height={80}
-                        priority
-                    />
+                    <Link href="/">
+                        <Image
+                            src="/FakeShop.svg"
+                            alt="FakeShop Logo"
+                            className="dark:invert"
+                            width={300}
+                            height={80}
+                            priority
+                        />
+                    </Link>
                 </div>
                 <CartPreview />
             </Wrapper>        

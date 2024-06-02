@@ -2,6 +2,7 @@
 
 import { MdShoppingCart } from 'react-icons/md';
 import { Badge } from '@mui/base/Badge';
+import Link from "next/link";
 
 import useCartState from '@/lib/domain/appState/cart/useCartState';
 
@@ -31,9 +32,11 @@ function CartPreview() {
 
     return (
         <div className={containerStyles.join(' ')}>
-            <div className={iconContainerStyles.join(' ')}>
-                <MdShoppingCart className={iconStyles.join(' ')} />
-            </div>
+            <Link href="/cart">
+                <div className={iconContainerStyles.join(' ')}>
+                    <MdShoppingCart className={iconStyles.join(' ')} />
+                </div>
+            </Link>
             <Badge
                 badgeContent={cartStore.cart?.products.length ?? 0}
                 slotProps={{
