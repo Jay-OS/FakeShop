@@ -2,13 +2,16 @@
 
 import { MdShoppingCart } from 'react-icons/md';
 import { Badge } from '@mui/base/Badge';
+import Link from "next/link";
+import { usePathname } from 'next/navigation';
 
-import useCartState from '@/lib/domain/appState/cart/useCartState';
+import useCartStore from '@/lib/domain/appState/cart/cartStore';
 
 import './cart-preview.css';
 
 function CartPreview() {
-    const cartStore = useCartState();
+    const { cart } = useCartStore();
+    const pathname = usePathname();
 
     const containerStyles = [
         'relative w-10 h-10', // layout
@@ -29,13 +32,17 @@ function CartPreview() {
         'bg-black text-white rounded-full',  // theme
     ];
 
+    if (['/cart', '/checkout'].some(path => pathname.startsWith(path))) return undefined;
+
     return (
         <div className={containerStyles.join(' ')}>
-            <div className={iconContainerStyles.join(' ')}>
-                <MdShoppingCart className={iconStyles.join(' ')} />
-            </div>
+            <Link href="/cart" title="View cart">
+                <div className={iconContainerStyles.join(' ')}>
+                    <MdShoppingCart className={iconStyles.join(' ')} />
+                </div>
+            </Link>
             <Badge
-                badgeContent={cartStore.cart?.products.length ?? 0}
+                badgeContent={cart?.products?.length ?? 0}
                 slotProps={{
                     badge: {
                         className: badgeStyles.join(' ')

@@ -11,7 +11,7 @@ type AppConfigurationType = {
 const appConfiguration: AppConfigurationType = {
     api: { 
         apiRoot: "https://fakestoreapi.com/",
-        timeoutMS: 1000,
+        timeoutMS: 3000,
     },
     layout: {
         pageSize: 12,

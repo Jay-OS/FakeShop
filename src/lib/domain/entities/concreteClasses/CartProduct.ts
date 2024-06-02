@@ -4,12 +4,14 @@ import EntityConversionError from '@/lib/domain/errors/EntityConversionError';
 import InvalidArgumentError from '@/lib/domain/errors/InvalidArgumentError';
 
 import { ICartProduct } from '../interfaces/cartInterfaces';
+import { IProduct } from '../interfaces/productInterfaces';
 
 export default class CartProduct implements ICartProduct {
     private readonly _productId: number;
     private _quantity: number;
+    private _productEntity?: IProduct;
 
-    constructor({ productId, quantity }: ICartProduct) {
+    constructor({ productId, quantity, productEntity }: ICartProduct) {
         const parsedProductId = parseToStrictInteger(productId);
         const parsedQuantity = parseToStrictInteger(quantity);
 
@@ -18,6 +20,7 @@ export default class CartProduct implements ICartProduct {
 
         this._productId = parsedProductId!;
         this._quantity = parsedQuantity!;
+        this._productEntity = productEntity;
     }
 
     get productId() {
@@ -34,6 +37,17 @@ export default class CartProduct implements ICartProduct {
             throw new InvalidArgumentError('newQuantity', newQuantity);
 
         this._quantity = parsedNewQuantity!;
+    }
+
+    get productEntity() {
+        return this._productEntity;
+    }
+
+    getObject() {
+        return {
+            productId: this.productId,
+            quantity: this.quantity,
+        };
     }
 };
 

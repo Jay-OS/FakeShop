@@ -12,17 +12,18 @@ export default function ProductTile({ product }: { product: IProduct }) {
 
     return (
         <li className={styles.join(' ')}>
-            <div className="grow place-content-center">
+            <div className="w-full min-h-52 relative place-content-center">
                 <Image
                     src={product.image}
                     alt={`Image for ${product.title}`}
                     className="dark:invert"
-                    width={300}
-                    height={300}
+                    objectFit="contain"
+                    fill
                 />
             </div>
             <div className="mt-4">
                 <h2>{product.title}</h2>
+                <p className="my-2">£{product.price.toFixed(2)}</p>
                 <QuickAddToCart product={product} />
             </div>
         </li>
