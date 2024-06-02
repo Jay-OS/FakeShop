@@ -14,6 +14,7 @@ export interface ICartNoDate {
     addProduct(productId: number, quantity: number, product?: IProduct): void;
     deleteProduct(productId: number): void,
     updateProduct(productId: number, quantity: number): void,
+    emptyCart(): void,
     getObject(): Partial<ICart>;
 };
 

@@ -5,14 +5,14 @@ import * as productService from '@/lib/apiGateway/productService';
 
 type ProductsStoreType = {
     products: IProduct[];
-    getProducts: () => void;
+    getProducts: () => Promise<void>;
 };
 
 const useProductsStore = create<ProductsStoreType>((set) => ({
   products: [],
-  getProducts: async () => { 
-    const products = await productService.getProducts();
-    set((_state) => ({ products }))
+  getProducts: () => {
+    return productService.getProducts()
+      .then(result => set((_state) => ({ products: result })));
   },
 }));
 

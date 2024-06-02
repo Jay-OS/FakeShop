@@ -1,10 +1,6 @@
 import Image from "next/image";
 
-import QuickAddToCart from './QuickAddToCart';
-
-import { IProduct } from '@/lib/domain/entities/interfaces/productInterfaces';
-
-export default function ProductTile({ product }: { product: IProduct }) {
+export default function ProductTileSkeleton() {
     const styles = [
         'border border-slate rounded-sm p-4', // theme
         'flex flex-col', // layout
@@ -14,18 +10,21 @@ export default function ProductTile({ product }: { product: IProduct }) {
         <li className={styles.join(' ')}>
             <div className="w-full min-h-52 relative place-content-center">
                 <Image
-                    src={product.image}
-                    alt={`Image for ${product.title}`}
+                    src='/ProdSkel.svg'
+                    alt={`Pklaceholder image`}
                     className="dark:invert"
                     objectFit="contain"
                     fill
                 />
             </div>
             <div className="grow mt-4">
-                <h2>{product.title}</h2>
-                <p className="my-2">£{product.price.toFixed(2)}</p>
+                <div className="bg-slate-300 w-full h-6" />
+                <div className="bg-slate-300 w-16 my-2 h-6" />
             </div>
-            <QuickAddToCart product={product} />
+            <div className="flex gap-2">
+                <div className="border border-slate-300 h-10 w-2/3 rounded" />
+                <div className="bg-slate-300 grow" />
+            </div>
         </li>
     );
 }

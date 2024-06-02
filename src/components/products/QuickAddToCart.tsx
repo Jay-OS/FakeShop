@@ -11,29 +11,23 @@ import useCartStore from '@/lib/domain/appState/cart/cartStore';
 
 export default function QuickAddToCart({ product }: { product: IProduct }) {
     const [quantity, setQuantity] = useState<number | null>(1);
+    const [disableCommands, setDisableCommands] = useState<boolean>(false);
     const addToCart = useCartStore(state => state.addToCart);
 
     function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        addToCart({ productId: product.id, quantity: quantity ?? 0, productEntity: product});
+        setDisableCommands(true);
+        addToCart({ productId: product.id, quantity: quantity ?? 0, productEntity: product})
+            .then(() => setTimeout(() => setDisableCommands(false), 500));
     }
 
     const formStyles = [
         'flex gap-1 mt-2', // layout
     ];
 
-    const selectStyles = [
-        'border border-slate-300 rounded', // theme
-        'grow p-2', // layout
-    ];
-
-    const optionStyles = [
-        'py-2 px-6', // layout
-        'cursor-pointer select-none', // interaction
-    ];
-
     const buttonStyles = [
-        'bg-brand text-white border border-brand rounded', // theme
+        'bg-brand text-white rounded', // theme
+        'disabled:bg-slate-400 ', // disabled theme
         'py-2 px-4', // layout
     ];
 
@@ -43,8 +37,14 @@ export default function QuickAddToCart({ product }: { product: IProduct }) {
                 value={quantity ?? 1}
                 onchange={setQuantity}
                 id={`quick-add-qty-id${product.id}`}
+                disabled={disableCommands}
             />
-            <Button type="submit" className={buttonStyles.join(' ')} title="Add to cart">
+            <Button
+                type="submit"
+                className={buttonStyles.join(' ')}
+                title="Add to cart"
+                disabled={disableCommands}
+            >
                 <MdAddShoppingCart className="text-xl" />
             </Button>
         </form>

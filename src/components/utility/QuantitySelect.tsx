@@ -1,9 +1,17 @@
 import { Select } from '@mui/base/Select';
 import { Option } from '@mui/base/Option';
 
-export default function QuantitySelect({ id, value, onchange, maxQuantity }: { id: string, value: number, onchange: (value: number) => void, maxQuantity?: number }) {
+type QuantitySelectPropsType = {
+    id: string,
+    value: number,
+    onchange: (value: number) => void,
+    maxQuantity?: number,
+    disabled?: boolean
+}
+
+export default function QuantitySelect({ id, value, onchange, maxQuantity, disabled }: QuantitySelectPropsType) {
     const selectStyles = [
-        'border border-slate-300 rounded bg-white', // theme
+        'border border-slate-300 rounded bg-white disabled:text-slate-300', // theme
         'grow p-2', // layout
     ];
 
@@ -25,6 +33,7 @@ export default function QuantitySelect({ id, value, onchange, maxQuantity }: { i
             slotProps={{ listbox: {
                 className: 'border border-slate-300 rounded bg-white'
             }}}
+            disabled={disabled}
         >
             {quantityOptionValues.map(optionValue => {
                 const additionalStyles = optionValue === value ? 'bg-brand text-white' : 'hover:bg-slate-100 hover:text-black';
