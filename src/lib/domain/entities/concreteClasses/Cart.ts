@@ -8,7 +8,7 @@ import CartProduct from './CartProduct';
 
 export default class Cart implements ICart {
     private readonly _id: number;
-    private readonly _userId: number;
+    private readonly _userId?: number;
     private readonly _date: Date;
     private readonly _products: ICartProduct[];
 
@@ -17,7 +17,7 @@ export default class Cart implements ICart {
         const parsedUserId = parseToStrictInteger(userId);
         const parsedDate = parseToDateTime(date);
 
-        if ([parsedId, parsedUserId, parsedDate].some(value => isNullOrUndefined(value))
+        if ([parsedId, parsedDate].some(value => isNullOrUndefined(value))
             || !Array.isArray(products)) {
             throw new EntityConversionError(`Error parsing Cart with ID = ${id}`);
         }

@@ -10,9 +10,9 @@ export function createCart(): Promise<ICart> {
         products: [],
     };
 
-    function transformCart(data: Partial<ICart> & { date?: string }): ICart {
-        return new Cart(data);
-    }
-
     return apiGateway.post<ICart>(url, data, transformCart);
+}
+
+function transformCart(data: string & { date?: string }): ICart {
+    return new Cart(JSON.parse(data));
 }

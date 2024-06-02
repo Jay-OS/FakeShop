@@ -12,10 +12,10 @@ export function getProducts(sortOrder?: sortOrderEnum, category?: string): Promi
         limit: appConfiguration.layout.pageSize,
     };
 
-    function transformProducts(data: IProduct[]): IProduct[] {
-        return data.map(product => new Product(product));
-    }
-
     return apiGateway.get<IProduct[]>(url, params, transformProducts);
 }
 
+function transformProducts(data: string): IProduct[] {
+    const parsedJSON: IProduct[] = JSON.parse(data);
+    return parsedJSON.map(product => new Product(product));
+}

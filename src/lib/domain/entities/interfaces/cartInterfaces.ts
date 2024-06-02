@@ -5,7 +5,7 @@ export interface ICartProduct {
 
 export interface ICart {
     id: number;
-    userId: number;
+    userId?: number;
     date: Date;
     products: ICartProduct[];
     addProduct(productId: number, quantity: number): void;
